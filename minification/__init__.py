@@ -2,13 +2,16 @@
 # Standard imports
 import os
 from packaging import version
+from functools import lru_cache
 from fnmatch import fnmatch
 from codecs import open
 import logging
 
 # Custom imports
 import csscompressor
+from jsmin import jsmin
 import htmlmin
+from bs4 import BeautifulSoup
 
 # Pelican imports
 from pelican import signals
@@ -53,19 +56,53 @@ class Minification:
                 if fnmatch(name, "*.html"):
                     self.write_to_file(
                         path_file,
-                        lambda content: htmlmin.minify(
-                            content,
-                            remove_comments=True,
-                            remove_empty_space=True,
-                            reduce_boolean_attributes=True,
-                            keep_pre=True,
-                            remove_optional_attribute_quotes=False,
-                        )
+                        lambda content: self.minify_inline_script_style(
+                            htmlmin.minify(
+                                content,
+                                remove_comments=True,
+                                remove_empty_space=True,
+                                reduce_boolean_attributes=True,
+                                keep_pre=True,
+                                remove_optional_attribute_quotes=False,
+                            )
+                        ),
                     )
                 elif fnmatch(name, "*.css"):
                     self.write_to_file(
                         path_file, lambda content: csscompressor.compress(content)
                     )
+
+    def minify_inline_script_style(self, content):
+        """Minify inline JavaScript and CSS in HTML content
+
+        :param content: HTML data
+        :type content: <str>
+        :return: HTML data with <script> and <style> tags minified
+        :rtype: <str>
+        """
+        soup = BeautifulSoup(content, "html.parser")
+
+        # Compression methods according to specific HTML tags
+        tags_methods = {"script": jsmin, "style": csscompressor.compress}
+
+        content_modified = False
+        for tag, method in tags_methods.items():
+
+            found_tags = soup.find_all(tag)
+            if not found_tags:
+                continue
+
+            for found_tag in found_tags:
+                # Exclude empty tags
+                if not found_tag.string:
+                    continue
+                content_modified = True
+                found_tag.string.replace_with(
+                    minification_method(method, found_tag.string)
+                )
+
+        # Return content as is if there have been no changes
+        return str(soup) if content_modified else content
 
     @staticmethod
     def write_to_file(path_file, callback):
@@ -88,6 +125,21 @@ class Minification:
                 "unable to minify file %(file)s, exception was %(exception)r"
                 % {"file": path_file, "exception": e}
             )
+
+
+@lru_cache(maxsize=None)
+def minification_method(method, content):
+    """Cached wrapper for minification method
+
+    Some JavaScript or CSS tags may be similar from page to page;
+    so caching the return of this function can speed up the minification process.
+
+    :param content: JavaScript or CSS code
+    :type content: <str>
+    :return: Minified code
+    :rtype: <str>
+    """
+    return method(content)
 
 
 def register():
