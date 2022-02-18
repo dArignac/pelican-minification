@@ -4,7 +4,6 @@ import os
 from packaging import version
 from functools import lru_cache
 from fnmatch import fnmatch
-from codecs import open
 import logging
 
 # Custom imports
