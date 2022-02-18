@@ -2,6 +2,7 @@ pelican-minification
 ====================
 
 Content minification for the `Pelican`_ site generator.
+This plugin can compress HTML & CSS files as well as inline CSS and JavaScript in HTML files.
 
 
 Installation and Usage
