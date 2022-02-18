@@ -32,13 +32,12 @@ if version.parse(csscompressor.__version__) <= version.parse("0.9.5"):
     assert csscompressor._preserve_call_tokens == my_new_preserve_call_tokens
 
 
-class Minification(object):
-    """
-    Class that does file content minification.
-    """
+class Minification:
+    """File content minification"""
+
     def __init__(self, pelican):
-        """
-        Minifies the files.
+        """Minifies the files
+
         :param pelican: the pelican object
         :type pelican: pelican.Pelican
         """
@@ -46,7 +45,7 @@ class Minification(object):
             for name in files:
                 path_file = os.path.join(path, name)
 
-                if fnmatch(name, '*.html'):
+                if fnmatch(name, "*.html"):
                     self.write_to_file(
                         path_file,
                         lambda content: htmlmin.minify(
@@ -58,33 +57,31 @@ class Minification(object):
                             remove_optional_attribute_quotes=False,
                         )
                     )
-                elif fnmatch(name, '*.css'):
+                elif fnmatch(name, "*.css"):
                     self.write_to_file(
-                        path_file,
-                        lambda content: csscompressor.compress(content)
+                        path_file, lambda content: csscompressor.compress(content)
                     )
 
     @staticmethod
     def write_to_file(path_file, callback):
-        """
-        Reads the content of the given file, puts the content into the callback and writes the result back to the file.
+        """Read the content of the given file, put the content into the callback
+        and writes the result back to the file.
+
         :param path_file: the path to the file
         :type path_file: str
         :param callback: the callback function
         :type callback: function
         """
         try:
-            with open(path_file, 'r+', encoding='utf-8') as f:
+            with open(path_file, "r+", encoding="utf-8") as f:
                 content = callback(f.read())
                 f.seek(0)
                 f.write(content)
                 f.truncate()
         except Exception as e:
             raise Exception(
-                'unable to minify file %(file)s, exception was %(exception)r' % {
-                    'file': path_file,
-                    'exception': e,
-                }
+                "unable to minify file %(file)s, exception was %(exception)r"
+                % {"file": path_file, "exception": e}
             )
 
 
