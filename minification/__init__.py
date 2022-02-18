@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Standard imports
 import os
+from packaging import version
 from fnmatch import fnmatch
 from codecs import open
 
@@ -10,6 +11,25 @@ import htmlmin
 
 # Pelican imports
 from pelican import signals
+
+
+if version.parse(csscompressor.__version__) <= version.parse("0.9.5"):
+    # Monkey patch csscompressor 0.9.5
+    _preserve_call_tokens_original = csscompressor._preserve_call_tokens
+    _url_re = csscompressor._url_re
+
+    def my_new_preserve_call_tokens(*args, **kwargs):
+        """If regex is for url pattern, switch the keyword remove_ws to False
+
+        Such configuration will preserve svg code in url() pattern of CSS file.
+        """
+        if _url_re == args[1]:
+            kwargs["remove_ws"] = False
+        return _preserve_call_tokens_original(*args, **kwargs)
+
+    csscompressor._preserve_call_tokens = my_new_preserve_call_tokens
+
+    assert csscompressor._preserve_call_tokens == my_new_preserve_call_tokens
 
 
 class Minification(object):
