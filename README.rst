@@ -24,7 +24,7 @@ Install pelican-minification into your Python interpreter using pip:
     pip install pelican-minification
 
 
-Then add the plugin to the PLUGINS setting within your *pelicanconf.py*:
+Then add the plugin to the ``PLUGINS`` setting within your *pelicanconf.py*:
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ Then add the plugin to the PLUGINS setting within your *pelicanconf.py*:
     ]
 
 Upon calling the *pelican* command now, all HTML and CSS files are compressed automatically;
-including inline JavaScript and CSS rules in `<script>` and `<style>` tags.
+including inline JavaScript and CSS rules in ``<script>`` and ``<style>`` tags.
 
 .. _htmlmin: https://pypi.python.org/pypi/htmlmin
 .. _csscompressor: https://pypi.python.org/pypi/csscompressor
