@@ -143,7 +143,5 @@ def minification_method(method, content):
 
 
 def register():
-    """
-    Registers after the content was generated.
-    """
+    """Register the plugin after the content was generated"""
     signals.finalized.connect(Minification)
