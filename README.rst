@@ -13,6 +13,7 @@ pelican-minification depends on the following packages that will be installed au
 * `htmlmin`_
 * `csscompressor`_
 * `jsmin`_
+* `BeautifulSoup`_
 * `Pelican`_
 
 
@@ -38,4 +39,5 @@ including inline JavaScript and CSS rules in `<script>` and `<style>` tags.
 .. _htmlmin: https://pypi.python.org/pypi/htmlmin
 .. _csscompressor: https://pypi.python.org/pypi/csscompressor
 .. _jsmin: https://pypi.org/project/jsmin
+.. _BeautifulSoup: https://pypi.org/project/beautifulsoup4
 .. _Pelican: https://pypi.python.org/pypi/pelican
