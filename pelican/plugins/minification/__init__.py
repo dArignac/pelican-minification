@@ -90,9 +90,7 @@ class Minification:
                         ),
                     )
                 elif fnmatch(name, "*.css"):
-                    self.write_to_file(
-                        path_file, lambda content: csscompressor.compress(content)
-                    )
+                    self.write_to_file(path_file, csscompressor.compress)
 
     def minify_inline_script_style(self, content):
         """Minify inline JavaScript and CSS in HTML content
