@@ -4,6 +4,7 @@ import os
 from packaging import version
 from fnmatch import fnmatch
 from codecs import open
+import logging
 
 # Custom imports
 import csscompressor
@@ -12,6 +13,8 @@ import htmlmin
 # Pelican imports
 from pelican import signals
 
+
+LOGGER = logging.getLogger(__name__)
 
 if version.parse(csscompressor.__version__) <= version.parse("0.9.5"):
     # Monkey patch csscompressor 0.9.5
@@ -41,6 +44,8 @@ class Minification:
         :param pelican: the pelican object
         :type pelican: pelican.Pelican
         """
+        LOGGER.info("Minification in progress...")
+
         for path, subdirs, files in os.walk(pelican.output_path):
             for name in files:
                 path_file = os.path.join(path, name)
