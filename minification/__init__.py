@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-import csscompressor
-import htmlmin
+# Standard imports
 import os
-
+from fnmatch import fnmatch
 from codecs import open
 
-from fnmatch import fnmatch
+# Custom imports
+import csscompressor
+import htmlmin
 
+# Pelican imports
 from pelican import signals
 
 
