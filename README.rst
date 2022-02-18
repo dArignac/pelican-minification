@@ -46,7 +46,7 @@ To configure the behavior of the plugin, add the following variables in your *pe
     INLINE_CSS_MIN = True
     INLINE_JS_MIN = True
 
-Please note that `INLINE_CSS_MIN` and `INLINE_JS_MIN` require `HTML_MIN` be enabled.
+Please note that ``INLINE_CSS_MIN`` and ``INLINE_JS_MIN`` require ``HTML_MIN`` be enabled.
 
 
 .. _htmlmin: https://pypi.python.org/pypi/htmlmin
