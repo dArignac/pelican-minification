@@ -1,6 +1,38 @@
 pelican-minification
 ====================
 
+⚠️ IMPORTANT ⚠️
+
+The plugin was moved to the official Pelican plugin organization.
+
+You can now find it here: https://github.com/pelican-plugins/minify
+
+Also the package name changed to `pelican-minify`. Please read the docs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Note that the plugin name changed to ``pelican.plugins.minification`` with version 1.0.0!**
 
 Content minification for the `Pelican`_ site generator.
