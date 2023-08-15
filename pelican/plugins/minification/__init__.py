@@ -37,7 +37,7 @@ from bs4 import BeautifulSoup
 # Pelican imports
 from pelican import signals
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 LOGGER = logging.getLogger(__name__)
 
